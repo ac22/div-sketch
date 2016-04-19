@@ -1,0 +1,25 @@
+body {
+    background-color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px;
+}
+
+#container {
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    background-color: green;
+    width: 100%;
+    height: 100%;
+}
+
+.square {
+    background-color: #fff7e6;
+    margin: 0;
+    transition-property: background-color;
+    transition-duration: 1s;
+    transition-timing-function: ease-in-out;
+}
