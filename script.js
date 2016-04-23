@@ -1,54 +1,50 @@
-var PEN_COLORS = ['#657b83', '#cb4b16', '#2aa198', '#b58900',
+/* global $ */
+// the above line is to temporarily prevent eslint from complaing about $ from jQuery
+const PEN_COLORS = ['#657b83', '#cb4b16', '#2aa198', '#b58900',
       '#6c71c4', '#dc322f', '#268bd2', '#d33682', '#859900'];
-var SPACE_KEYCODE = 32;
-var counter = 0;
-var canDraw = false;
-$(init());
+const SPACE_KEYCODE = 32;
+let counter = 0;
+let canDraw = false;
 
-function addEventListeners() {
-    $(window).resize(function () {
-        update();
-    });
-    $('#container').click(function () {
-        canDraw = !canDraw;
-    });
-    $(document).keydown(function(e) {
-        // clear the drawing if the user presses space, cycle colors
-        if (e.which === SPACE_KEYCODE) {
-            $('.square').css('background-color', '#fdf6e3');
-            canDraw = false;
-            counter++;
-        }
-    });
-}
 
 function addChildren(target, numChildren) {
-    var child = '<div class="square"></div>';
-    for (var i = 0; i < numChildren; i++) {
-        target.append(child);
-    }
+  const child = '<div class="square"></div>';
+  for (let i = 0; i < numChildren; i++) {
+    target.append(child);
+  }
 }
 
-function update(n=50) {
-    var smallerSide = Math.min($(window).innerWidth(), $(window).innerHeight());
-    var childSide = smallerSide / n;
-    $('#container').width(smallerSide);
-    $('#container').height(smallerSide);
-    $('#container').empty();
+function update(n = 50) {
+  const smallerSide = Math.min($(window).innerWidth(), $(window).innerHeight());
+  const childSide = smallerSide / n;
+  $('#container').width(smallerSide);
+  $('#container').height(smallerSide);
+  $('#container').empty();
 
-    addChildren($('#container'), n * n);
-    $('.square').width(childSide);
-    $('.square').height(childSide);
-    $('.square').hover(function () {
-        if (canDraw) {
-            $(this).css('background-color',
-                PEN_COLORS[counter % PEN_COLORS.length]);
-        }
-    });
+  addChildren($('#container'), n * n);
+  $('.square').width(childSide);
+  $('.square').height(childSide);
+  $('.square').hover(function draw() {
+    if (canDraw) {
+      $(this).css('background-color',
+          PEN_COLORS[counter % PEN_COLORS.length]);
+    }
+  });
+}
+function addEventListeners() {
+  $(window).resize(() => update());
+  $('#container').click(() => { canDraw = !canDraw; });
+  $(document).keydown(event => {
+    if (event.which === SPACE_KEYCODE) {
+      $('.square').css('background-color', '#fdf6e3');
+      canDraw = false;
+      counter++;
+    }
+  });
 }
 
 function init() {
-    update();
-    addEventListeners();
+  update();
+  addEventListeners();
 }
-
+$(init());
